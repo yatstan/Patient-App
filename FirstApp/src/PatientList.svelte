@@ -10,7 +10,6 @@
   const currentPage = writable(1);
   const pageSize = 25;
 
-  // Function to fetch patient data from FHIR server
   async function fetchPatients(url = "https://demo.kodjin.com/fhir/Patient") {
     try {
       const response = await fetch(url);
@@ -22,20 +21,17 @@
         throw new Error("No patient data found");
       }
 
-      // Append new patients to the existing list, filtering out those without a defined name
       patients.update(current => {
         const newPatients = data.entry
           .map((entry) => entry.resource)
           .filter(patient => patient.name && patient.name[0] && patient.name[0].text);
         const updatedPatients = [...current, ...newPatients];
 
-        // Sort patients by latest updated first
         updatedPatients.sort((a, b) => new Date(b.meta.lastUpdated) - new Date(a.meta.lastUpdated));
 
         return updatedPatients;
       });
 
-      // Continue fetching if there are more patients
       const currentPatients = get(patients);
       if (data.link) {
         const nextLink = data.link.find(link => link.relation === 'next');
@@ -48,7 +44,6 @@
     }
   }
 
-  // Derived store to filter patients based on search query and paginate
   const filteredPatients = derived(
     [patients, searchQuery, currentPage],
     ([$patients, $searchQuery, $currentPage]) => {
@@ -56,7 +51,7 @@
       if ($searchQuery) {
         const query = $searchQuery.toLowerCase();
         filtered = $patients.filter((patient) =>
-          [patient.name?.[0]?.text, patient.gender, patient.birthDate, patient.telecom?.[0]?.value, patient.identifier?.[0]?.value]
+          [patient.identifier?.[0]?.value, patient.name?.[0]?.text, patient.gender, patient.birthDate, patient.telecom?.[0]?.value]
             .some(field => field?.toLowerCase().includes(query))
         );
       }
@@ -66,7 +61,6 @@
     }
   );
 
-  // Total pages derived from the total number of patients and page size
   const totalPages = derived(
     [patients],
     ([$patients]) => Math.ceil($patients.length / pageSize)
@@ -74,7 +68,7 @@
 
   function handleSearch() {
     searchQuery.set($searchInput);
-    currentPage.set(1); // Reset to first page on new search
+    currentPage.set(1);
   }
 
   function nextPage() {
@@ -85,7 +79,6 @@
     currentPage.update(n => Math.max(n - 1, 1));
   }
 
-  // Execute search function when 'Enter' key is pressed
   function handleKeyDown(event) {
     if (event.key === 'Enter') {
       handleSearch();
@@ -102,6 +95,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
+    border: 1px solid #dddddd; /* Add border to the table */
   }
   th, td {
     border: 1px solid #dddddd;
@@ -118,7 +112,7 @@
 <div class="flex mb-4">
   <input
     type="text"
-    placeholder="Search by Name, Phone Number, or MRN"
+    placeholder="Search by MRN, Name, Phone Number"
     class="p-2 border border-gray-300 rounded w-full"
     bind:value={$searchInput}
     on:keydown={handleKeyDown}
@@ -136,22 +130,22 @@
   <table>
     <thead>
       <tr>
+        <th>MRN</th>
         <th>Name</th>
         <th>Gender</th>
         <th>DOB</th>
         <th>Phone Number</th>
-        <th>MRN</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       {#each $filteredPatients as patient (patient.id)}
         <tr>
+          <td>{patient.identifier?.[0]?.value ?? 'Null'}</td>
           <td>{patient.name[0].text}</td>
-          <td>{patient.gender ?? ''}</td>
-          <td>{patient.birthDate ?? ''}</td>
-          <td>{patient.telecom?.[0]?.value ?? ''}</td>
-          <td>{patient.identifier?.[0]?.value ?? ''}</td>
+          <td>{patient.gender ?? 'Null'}</td>
+          <td>{patient.birthDate ?? 'Null'}</td>
+          <td>{patient.telecom?.[0]?.value ?? 'Null'}</td>
           <td>
             <button on:click={() => navigate("/patient-form", patient.id)} class="p-1 bg-yellow-300 rounded">Edit</button>
           </td>

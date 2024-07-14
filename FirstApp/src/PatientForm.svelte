@@ -5,17 +5,18 @@
   export let navigate;
   export let patientId;
 
-  const formPatient = writable({ name: '', gender: '', birthDate: '', phoneNumber: '', id: '' });
+  const formPatient = writable({ mrn: '', name: '', gender: '', birthDate: '', phoneNumber: '', id: '' });
   const formMode = writable('create');
 
   async function fetchPatient(id) {
     try {
-      const response = await fetch(`https://hapi.fhir.org/baseR4/Patient/${id}`);
+      const response = await fetch(`https://demo.kodjin.com/fhir/Patient/${id}`);
       if (!response.ok) {
         throw new Error(`Error fetching patient data: ${response.statusText}`);
       }
       const patient = await response.json();
       formPatient.set({
+        mrn: patient.identifier?.[0]?.value || '',
         name: patient.name[0].text,
         gender: patient.gender,
         birthDate: patient.birthDate,
@@ -32,13 +33,14 @@
     event.preventDefault();
     const patient = get(formPatient);
 
-    if (!patient.name || !patient.gender || !patient.birthDate || !patient.phoneNumber) {
+    if (!patient.mrn || !patient.name || !patient.gender || !patient.birthDate || !patient.phoneNumber) {
       alert('All fields are required');
       return;
     }
 
     const patientResource = {
       resourceType: 'Patient',
+      identifier: [{ system: 'urn:ietf:rfc:3986', value: patient.mrn }],
       name: [{ text: patient.name }],
       gender: patient.gender,
       birthDate: patient.birthDate,
@@ -46,33 +48,31 @@
     };
 
     try {
+      let response;
       if (get(formMode) === 'create') {
-        const response = await fetch('https://hapi.fhir.org/baseR4/Patient', {
+        response = await fetch('https://demo.kodjin.com/fhir/Patient', {
           method: 'POST',
           headers: { 'Content-Type': 'application/fhir+json' },
           body: JSON.stringify(patientResource),
         });
-        if (response.ok) {
-          alert('Patient created successfully');
-          navigate('/');
-        } else {
-          throw new Error('Error creating patient');
-        }
       } else {
-        const response = await fetch(`https://hapi.fhir.org/baseR4/Patient/${patient.id}`, {
+        response = await fetch(`https://demo.kodjin.com/fhir/Patient/${patient.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/fhir+json' },
           body: JSON.stringify(patientResource),
         });
-        if (response.ok) {
-          alert('Patient updated successfully');
-          navigate('/');
-        } else {
-          throw new Error('Error updating patient');
-        }
       }
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error: ${response.status} - ${response.statusText}\n${errorText}`);
+      }
+
+      alert(`Patient ${get(formMode) === 'create' ? 'created' : 'updated'} successfully`);
+      navigate('/');
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert(`Error submitting form: ${error.message}`);
     }
   }
 
@@ -81,7 +81,7 @@
       fetchPatient(get(patientId));
     } else {
       formMode.set('create');
-      formPatient.set({ name: '', gender: '', birthDate: '', phoneNumber: '', id: '' });
+      formPatient.set({ mrn: '', name: '', gender: '', birthDate: '', phoneNumber: '', id: '' });
     }
   });
 </script>
@@ -95,6 +95,16 @@
 <div class="form-container">
   <h1 class="text-2xl font-bold mb-4">{#if $formMode === 'create'}Create Patient{/if}{#if $formMode === 'edit'}Edit Patient{/if}</h1>
   <form on:submit={handleSubmit}>
+    <div class="mb-4">
+      <label for="mrn" class="block mb-1">MRN</label>
+      <input
+        type="text"
+        id="mrn"
+        bind:value={$formPatient.mrn}
+        class="p-2 border border-gray-300 rounded w-full"
+        required
+      />
+    </div>
     <div class="mb-4">
       <label for="name" class="block mb-1">Name</label>
       <input
