@@ -67,7 +67,7 @@
 </style>
 
 <div class="banner">
-  <img src="/src/assets/svelte.svg" alt="Logo" class="logo" />
+  <img src="/static/svelte (copy).svg" alt="Logo" class="logo" />
   iCare+
 </div>
 <div class="container">

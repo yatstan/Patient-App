@@ -76,6 +76,10 @@
     }
   }
 
+  function goBack() {
+    navigate('/');
+  }
+
   onMount(() => {
     if (get(patientId)) {
       fetchPatient(get(patientId));
@@ -122,10 +126,19 @@
     background-color: #007bff;
     color: white;
     font-size: 1rem;
+    margin-bottom: 1rem;
   }
 
   .form-container button:hover {
     background-color: #0056b3;
+  }
+
+  .back-button {
+    background-color: #6c757d;
+  }
+
+  .back-button:hover {
+    background-color: #5a6268;
   }
 </style>
 
@@ -181,11 +194,10 @@
         required
       />
     </div>
-    <button
-      type="submit"
-    >
+    <button type="submit">
       {#if $formMode === 'create'}Create Patient{/if}
       {#if $formMode === 'edit'}Update Patient{/if}
     </button>
+    <button type="button" class="back-button" on:click={goBack}>Back</button>
   </form>
 </div>
