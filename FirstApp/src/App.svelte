@@ -35,11 +35,19 @@
 </script>
 
 <style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ece9e6, #ffffff);
+    margin: 0;
+    padding: 0;
+  }
+
   .container {
     max-width: 1000px;
     margin: 0 auto;
     padding: 2rem;
   }
+
   .banner {
     background-color: #1e3a8a; /* Dark blue background */
     color: white;
@@ -47,10 +55,21 @@
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo {
+    height: 50px;
+    margin-right: 10px;
   }
 </style>
 
-<div class="banner">iCare+</div>
+<div class="banner">
+  <img src="/src/assets/svelte.svg" alt="Logo" class="logo" />
+  iCare+
+</div>
 <div class="container">
   {#if $route === '/'}
     <PatientList {navigate} />

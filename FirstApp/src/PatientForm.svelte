@@ -89,6 +89,43 @@
 <style>
   .form-container {
     margin-top: 2rem;
+    background: #e0f7fa; /* Light blue background */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-container h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .form-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  .form-container input, .form-container select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .form-container button {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+  }
+
+  .form-container button:hover {
+    background-color: #0056b3;
   }
 </style>
 
@@ -101,7 +138,6 @@
         type="text"
         id="mrn"
         bind:value={$formPatient.mrn}
-        class="p-2 border border-gray-300 rounded w-full"
         required
       />
     </div>
@@ -111,7 +147,6 @@
         type="text"
         id="name"
         bind:value={$formPatient.name}
-        class="p-2 border border-gray-300 rounded w-full"
         required
       />
     </div>
@@ -120,7 +155,6 @@
       <select
         id="gender"
         bind:value={$formPatient.gender}
-        class="p-2 border border-gray-300 rounded w-full"
         required
       >
         <option value="">Select Gender</option>
@@ -135,7 +169,6 @@
         type="date"
         id="birthDate"
         bind:value={$formPatient.birthDate}
-        class="p-2 border border-gray-300 rounded w-full"
         required
       />
     </div>
@@ -145,13 +178,11 @@
         type="tel"
         id="phoneNumber"
         bind:value={$formPatient.phoneNumber}
-        class="p-2 border border-gray-300 rounded w-full"
         required
       />
     </div>
     <button
       type="submit"
-      class="p-2 bg-blue-500 text-white rounded"
     >
       {#if $formMode === 'create'}Create Patient{/if}
       {#if $formMode === 'edit'}Update Patient{/if}
