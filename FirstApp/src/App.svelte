@@ -55,19 +55,10 @@
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .logo {
-    height: 50px;
-    margin-right: 10px;
   }
 </style>
 
 <div class="banner">
-  <img src="/static/iCare.png" alt="Logo" class="logo" />
   iCare+
 </div>
 <div class="container">
