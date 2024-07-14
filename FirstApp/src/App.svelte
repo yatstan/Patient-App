@@ -61,13 +61,13 @@
   }
 
   .logo {
-    height: 50px;
-    margin-right: 10px;
+    height: 100px;
+    margin-right: 50px;
   }
 </style>
 
 <div class="banner">
-  <img src="/static/svelte (copy).svg" alt="Logo" class="logo" />
+  <img src="/static/iCare+.PNG" alt="Logo" class="logo" />
   iCare+
 </div>
 <div class="container">
