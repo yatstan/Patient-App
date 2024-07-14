@@ -61,8 +61,8 @@
   }
 
   .logo {
-    height: 100px;
-    margin-right: 50px;
+    height: 50px;
+    margin-right: 10px;
   }
 </style>
 
