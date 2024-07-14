@@ -67,7 +67,7 @@
 </style>
 
 <div class="banner">
-  <img src="/static/iCare+.PNG" alt="Logo" class="logo" />
+  <img src="/static/iCare.png" alt="Logo" class="logo" />
   iCare+
 </div>
 <div class="container">
