@@ -7,6 +7,12 @@
 
   const formPatient = writable({ mrn: '', name: '', gender: '', birthDate: '', phoneNumber: '', id: '' });
   const formMode = writable('create');
+  const nameError = writable('');
+  const phoneError = writable('');
+
+  // Updated regex patterns
+  const nameRegex = /^[a-zA-Z\s]+$/;
+  const phoneRegex = /^\+?[1-9]\d{9,14}$/;
 
   async function fetchPatient(id) {
     try {
@@ -29,14 +35,33 @@
     }
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  function validateForm() {
+    let isValid = true;
+    nameError.set('');
+    phoneError.set('');
+
     const patient = get(formPatient);
 
-    if (!patient.mrn || !patient.name || !patient.gender || !patient.birthDate || !patient.phoneNumber) {
-      alert('All fields are required');
+    if (!nameRegex.test(patient.name)) {
+      nameError.set('Name can only contain letters and spaces.');
+      isValid = false;
+    }
+
+    if (!phoneRegex.test(patient.phoneNumber)) {
+      phoneError.set('Phone number must be a valid 10-digit number.');
+      isValid = false;
+    }
+
+    return isValid;
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (!validateForm()) {
       return;
     }
+
+    const patient = get(formPatient);
 
     const patientResource = {
       resourceType: 'Patient',
@@ -118,6 +143,13 @@
     border-radius: 4px;
   }
 
+  .form-container .error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: -0.875rem;
+    margin-bottom: 1rem;
+  }
+
   .form-container button {
     width: 100%;
     padding: 0.5rem;
@@ -162,6 +194,9 @@
         bind:value={$formPatient.name}
         required
       />
+      {#if $nameError}
+        <div class="error">{$nameError}</div>
+      {/if}
     </div>
     <div class="mb-4">
       <label for="gender" class="block mb-1">Gender</label>
@@ -193,6 +228,9 @@
         bind:value={$formPatient.phoneNumber}
         required
       />
+      {#if $phoneError}
+        <div class="error">{$phoneError}</div>
+      {/if}
     </div>
     <button type="submit">
       {#if $formMode === 'create'}Create Patient{/if}
