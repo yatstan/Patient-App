@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import PatientList from './PatientList.svelte';
   import PatientForm from './PatientForm.svelte';
+  import PatientDetails from './PatientDetails.svelte';
 
   const route = writable('/');
   const patientId = writable(null);
@@ -18,6 +19,9 @@
     if (path.startsWith('/patient-form')) {
       const id = path.split('/').pop();
       navigate('/patient-form', id);
+    } else if (path.startsWith('/patient-details')) {
+      const id = path.split('/').pop();
+      navigate('/patient-details', id);
     } else {
       navigate('/');
     }
@@ -28,6 +32,9 @@
     if (path.startsWith('/patient-form')) {
       const id = path.split('/').pop();
       navigate('/patient-form', id);
+    } else if (path.startsWith('/patient-details')) {
+      const id = path.split('/').pop();
+      navigate('/patient-details', id);
     } else {
       navigate('/');
     }
@@ -58,13 +65,13 @@
   }
 </style>
 
-<div class="banner">
-  iCare+
-</div>
+<div class="banner">iCare+</div>
 <div class="container">
   {#if $route === '/'}
     <PatientList {navigate} />
   {:else if $route === '/patient-form'}
     <PatientForm {navigate} {patientId} />
+  {:else if $route === '/patient-details'}
+    <PatientDetails {navigate} {patientId} />
   {/if}
 </div>

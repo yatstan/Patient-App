@@ -10,11 +10,12 @@
   const currentPage = writable(1);
   const pageSize = 25;
 
-  async function fetchPatients(url = "https://demo.kodjin.com/fhir/Patient") {
+  async function fetchPatients(url = "https://demo.kodjin.com/fhir/Patient?_count=100") {
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`Error fetching data: ${response.statusText}`);
+        const errorText = await response.text();
+        throw new Error(`Error fetching data: ${response.status} - ${response.statusText}\n${errorText}`);
       }
       const data = await response.json();
       if (!data.entry) {
@@ -40,7 +41,8 @@
         }
       }
     } catch (error) {
-      console.error("Error fetching patients:", error);
+      console.error("Error fetching patients:", error.message);
+      console.error("Error details:", error);
     }
   }
 
@@ -91,100 +93,39 @@
 <style>
   .table-container {
     overflow-x: auto;
-    background-color: #e0f7fa; /* Light blue background */
-    padding: 1rem;
-    border-radius: 8px;
   }
-
   table {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #dddddd; /* Add border to the table */
   }
-
   th, td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
   }
-
   th {
     background-color: #f2f2f2;
-  }
-
-  tr:hover {
-    background-color: #f5f5f5;
-  }
-
-  button:hover {
-    background-color: #ddd;
-    cursor: pointer;
-  }
-
-  .search-bar {
-    display: flex;
-    margin-bottom: 1rem;
-  }
-
-  .search-input {
-    flex: 1;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-
-  .search-button, .create-button {
-    padding: 0.5rem 1rem;
-    margin-left: 0.5rem;
-    border: none;
-    border-radius: 4px;
-    color: white;
-  }
-
-  .search-button {
-    background-color: #007bff;
-  }
-
-  .create-button {
-    background-color: #28a745;
-  }
-
-  .pagination {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
-
-  .pagination button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-  }
-
-  .pagination span {
-    padding: 0.5rem 1rem;
   }
 </style>
 
 <h1 class="text-2xl font-bold mb-4">Patient Administration</h1>
 
-<div class="search-bar">
+<div class="flex mb-4">
   <input
     type="text"
     placeholder="Search by MRN, Name, Phone Number"
-    class="search-input"
+    class="p-2 border border-gray-300 rounded w-full"
     bind:value={$searchInput}
     on:keydown={handleKeyDown}
   />
   <button
-    class="search-button"
+    class="ml-2 p-2 bg-blue-500 text-white rounded"
     on:click={handleSearch}
   >
     Search
   </button>
-  <button on:click={() => navigate("/patient-form")} class="create-button">Create Patient</button>
+  <button on:click={() => navigate("/patient-form")} class="ml-2 p-2 bg-green-500 text-white rounded">Create Patient</button>
 </div>
 
 <div class="table-container">
@@ -209,6 +150,7 @@
           <td>{patient.telecom?.[0]?.value ?? 'Null'}</td>
           <td>
             <button on:click={() => navigate("/patient-form", patient.id)} class="p-1 bg-yellow-300 rounded">Edit</button>
+            <button on:click={() => navigate("/patient-details", patient.id)} class="p-1 bg-blue-300 rounded ml-2">View</button>
           </td>
         </tr>
       {/each}
@@ -216,15 +158,17 @@
   </table>
 </div>
 
-<div class="pagination">
+<div class="flex justify-between mt-4">
   <button
+    class="p-2 bg-gray-300 rounded"
     on:click={previousPage}
     disabled={$currentPage === 1}
   >
     Previous
   </button>
-  <span>Page {$currentPage} of {$totalPages}</span>
+  <span class="p-2">Page {$currentPage} of {$totalPages}</span>
   <button
+    class="p-2 bg-gray-300 rounded"
     on:click={nextPage}
     disabled={$currentPage === $totalPages}
   >
