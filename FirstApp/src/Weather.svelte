@@ -36,3 +36,4 @@
     <p>Loading weather data...</p>
   {/if}
 </div>
+
