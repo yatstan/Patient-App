@@ -26,9 +26,9 @@
     }
   }
 
-  async function fetchPatientRelatedData(id, resourceType, store) {
+  async function fetchPatientRelatedData(id, resourceType, store, params = '') {
     try {
-      const response = await fetch(`https://demo.kodjin.com/fhir/${resourceType}?patient=${id}`);
+      const response = await fetch(`https://demo.kodjin.com/fhir/${resourceType}?patient=${id}${params}`);
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Error fetching ${resourceType} data: ${response.status} - ${response.statusText}\n${errorText}`);
@@ -58,10 +58,10 @@
     const id = get(patientId);
     if (id) {
       fetchPatientDetails(id);
-      fetchPatientRelatedData(id, 'Condition', patientDiagnosis);
-      fetchPatientRelatedData(id, 'Observation', patientObservations);
-      fetchPatientRelatedData(id, 'AllergyIntolerance', patientAllergies);
-      fetchPatientRelatedData(id, 'Procedure', patientProcedures);
+      fetchPatientRelatedData(id, 'Condition', patientDiagnosis, '&category=encounter-diagnosis');
+      fetchPatientRelatedData(id, 'Observation', patientObservations, '&category=vital-signs');
+      fetchPatientRelatedData(id, 'AllergyIntolerance', patientAllergies, '&category=food,medication,environment,biologic&clinical-status=active,inactive,resolved');
+      fetchPatientRelatedData(id, 'Procedure', patientProcedures, '&category');
       fetchPatientRelatedData(id, 'MedicationRequest', patientMedications);
     }
   });

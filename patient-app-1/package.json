@@ -1,0 +1,20 @@
+{
+  "name": "patient-management",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "svelte": "^3.0.0",
+    "svelte-loading-spinners": "^1.0.0",
+    "vite": "^2.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/kit": "^1.0.0-next.0",
+    "svelte": "^3.0.0",
+    "vite-plugin-svelte": "^1.0.0"
+  }
+}

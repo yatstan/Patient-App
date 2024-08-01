@@ -63,6 +63,22 @@
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+
+    .banner {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .banner {
+      font-size: 1rem;
+    }
+  }
 </style>
 
 <div class="banner">iCare+</div>

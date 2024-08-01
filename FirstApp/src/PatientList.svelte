@@ -107,6 +107,18 @@
   th {
     background-color: #f2f2f2;
   }
+
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    table {
+      font-size: 0.8rem;
+    }
+  }
 </style>
 
 <h1 class="text-2xl font-bold mb-4">Patient Administration</h1>
