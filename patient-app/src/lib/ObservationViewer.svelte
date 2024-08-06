@@ -211,6 +211,18 @@
   .signin-button:hover {
     background-color: #162c6a;
   }
+  @media (max-width: 768px) {
+    .chart-container {
+      height: 30vh;
+      width: 90vw;
+    }
+  }
+  @media (max-width: 480px) {
+    .chart-container {
+      height: 25vh;
+      width: 95vw;
+    }
+  }
 </style>
 
 <div>

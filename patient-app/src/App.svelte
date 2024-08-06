@@ -20,7 +20,6 @@
   let errorMessage = '';
   let currentPage = writable('signin');
   let redirecting = false;
-  let showClosePrompt = false;
 
   const getSecs = (date: Date) => {
     return Math.round((date.getTime()) / 1000);
@@ -71,11 +70,12 @@
 
   const logout = async () => {
     localStorage.removeItem(TOKEN_RESPONSE_LOCAL_STORAGE_KEY);
-    redirecting = true;
-    showClosePrompt = true;
     currentPage.set('signin');
+    redirecting = true;
+    window.location.href = `${SMART_LOGOUT_URL}?client_id=${CLIENT_ID}&logout_uri=${REDIRECT_URI}`;
     setTimeout(() => {
-      window.location.href = `${SMART_LOGOUT_URL}?client_id=${CLIENT_ID}&logout_uri=${REDIRECT_URI}/logout`;
+      redirecting = false;
+      window.location.href = REDIRECT_URI;
     }, 2000);
   };
 
@@ -269,29 +269,23 @@
   .signin-button:hover {
     background-color: #162c6a;
   }
-  .close-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .close-button {
-    background-color: #1e3a8a;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  .close-button:hover {
-    background-color: #162c6a;
-  }
-  .chart-container {
-    position: relative;
-    height: 40vh;
-    width: 80vw;
-    margin: auto;
+  @media (max-width: 768px) {
+    .button-container {
+      width: 100%;
+      height: auto;
+      position: relative;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .nav-button {
+      flex: 1;
+      text-align: center;
+      margin: 5px;
+    }
+    .content {
+      margin-left: 0;
+      padding: 10px;
+    }
   }
 </style>
 
@@ -321,28 +315,22 @@
             <p class="text-red-500">{errorMessage}</p>
           </div>
         {:else}
-          {#if showClosePrompt}
-            <div class="close-container">
-              <button on:click={closeWindow} class="close-button">Close Window</button>
+          {#if $currentPage === 'main'}
+            <div class="container mx-auto p-4">
+              <PatientDetails accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
             </div>
-          {:else}
-            {#if $currentPage === 'main'}
-              <div class="container mx-auto p-4">
-                <PatientDetails accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
-              </div>
-            {:else if $currentPage === 'medications'}
-              <div class="container mx-auto p-4">
-                <MedicationDetails accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
-              </div>
-            {:else if $currentPage === 'laboratory'}
-              <div class="container mx-auto p-4">
-                <ObservationViewer title="Lab Results" category='laboratory' accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
-              </div>
-            {:else if $currentPage === 'vitals'}
-              <div class="container mx-auto p-4">
-                <ObservationViewer title="Vital Signs" category='vital-signs' accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
-              </div>
-            {/if}
+          {:else if $currentPage === 'medications'}
+            <div class="container mx-auto p-4">
+              <MedicationDetails accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
+            </div>
+          {:else if $currentPage === 'laboratory'}
+            <div class="container mx-auto p-4">
+              <ObservationViewer title="Lab Results" category='laboratory' accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
+            </div>
+          {:else if $currentPage === 'vitals'}
+            <div class="container mx-auto p-4">
+              <ObservationViewer title="Vital Signs" category='vital-signs' accessToken={tokenResponse.access_token} patientId={tokenResponse.patient} />
+            </div>
           {/if}
         {/if}
       </div>
