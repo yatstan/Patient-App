@@ -18,7 +18,7 @@
   };
   let loading = true;
   let errorMessage = '';
-  let currentPage = writable('signin');
+  let currentPage = writable('main');
   let redirecting = false;
 
   const getSecs = (date: Date) => {
@@ -213,6 +213,9 @@
     height: 100vh;
     width: 200px;
     position: fixed;
+    top: 0;
+    z-index: 1000;
+    padding-top: 80px; /* Adjust this padding if necessary */
   }
   .nav-button {
     background: none;
@@ -233,10 +236,15 @@
     padding: 1rem;
     font-size: 1.5rem;
     font-weight: bold;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
   }
   .content {
     margin-left: 220px;
     padding: 20px;
+    padding-top: 80px; /* Adjust this padding if necessary */
   }
   .mic-button {
     background: none;
@@ -268,24 +276,6 @@
   }
   .signin-button:hover {
     background-color: #162c6a;
-  }
-  @media (max-width: 768px) {
-    .button-container {
-      width: 100%;
-      height: auto;
-      position: relative;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-    .nav-button {
-      flex: 1;
-      text-align: center;
-      margin: 5px;
-    }
-    .content {
-      margin-left: 0;
-      padding: 10px;
-    }
   }
 </style>
 

@@ -106,6 +106,8 @@
       }
     });
 
+    console.log('Blood Pressure Data:', { systolicData, diastolicData, labels });
+
     return { systolicData, diastolicData, labels };
   };
 
@@ -119,6 +121,7 @@
         const obs = groupedObservations[code];
         if (code === '55284-4') { // Blood Pressure Code
           const { systolicData, diastolicData, labels } = processBloodPressure(obs);
+          console.log('Blood Pressure Chart Data:', { systolicData, diastolicData, labels });
           const datasets = [
             {
               label: 'Systolic Blood Pressure',
@@ -211,18 +214,6 @@
   .signin-button:hover {
     background-color: #162c6a;
   }
-  @media (max-width: 768px) {
-    .chart-container {
-      height: 30vh;
-      width: 90vw;
-    }
-  }
-  @media (max-width: 480px) {
-    .chart-container {
-      height: 25vh;
-      width: 95vw;
-    }
-  }
 </style>
 
 <div>
@@ -238,20 +229,22 @@
         <div class="chart-container">
           <canvas id={"chart-" + code}></canvas>
         </div>
-        <div>
-          {#each groupObservationsByCode(observations)[code] as observation}
-            <p>
-              <span class="font-medium">
-                {getObservationText(observation.resource)}
-                {#if observation.resource?.effectiveDateTime}
-                  ({formatRelative(new Date(observation.resource.effectiveDateTime), new Date())})
-                {/if}
-                :
-              </span>
-              {getObservationDisplay(observation.resource)}
-            </p>
-          {/each}
-        </div>
+        {#if code === '55284-4'}
+          <div>
+            {#each groupObservationsByCode(observations)[code] as observation}
+              <p>
+                <span class="font-medium">
+                  {getObservationText(observation.resource)}
+                  {#if observation.resource?.effectiveDateTime}
+                    ({formatRelative(new Date(observation.resource.effectiveDateTime), new Date())})
+                  {/if}
+                  :
+                </span>
+                {getObservationDisplay(observation.resource)}
+              </p>
+            {/each}
+          </div>
+        {/if}
       {/each}
     </div>
   </div>
