@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "euphoric-world-422301-n2",
+  "private_key_id": "133a6576d1e0dbdea0efb2cb268bd437496b862c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCelzMM6DX4InYb\n3FdruB7QzMVR3RUYKkXlj+ZuA22Kq4FYsn29+FeXm3tdugNzHFOBDAQeFzo1K2Ux\n6+TDr/w/5U4+VXgqkX2PnpbcxBBHrBL0/D9dw9kd/mqPCmdC4yO1pOdOzOWsVTip\nWwZY5L60ujmZAKM1kQKgYzG1AISoJcTct/Emt2Jptdhd7rTd5F4OB8FPFl+iacIz\nyYZqe22gD77kWHf1+nfuzL8IL1+6h54Ef7WTSGpbLkLxT8Nnxxq5yr+YRdum07RO\nVPy8IuFg3u9klm94eDVdJiDCvahb+9oNJxJDBOxEa+Ds0G0/zAIOTSeSceCiiE2z\nRfJ23ra/AgMBAAECggEAP3X/nq2ZUxbvLkzoypkd863NU+nlFAtuduMzcVh70B67\nHrQmLwueeXNlVWcnFDwEikI1r5jZ2QbpcqWToF7e0O7AdZ8b++TGWt86PVNTtGp+\nF3yNGsdRLXhuSZj/IzvjQT+gs964FVLw3ownKRE34vgWLkycAsZpR6cJ8AUqEGKT\nYpyezI4PYpxhC8UBhMc0ixiuUe4smM9r2/nN86/cOc+LJNicTTxPCQ27r9GyAOmb\ngW+bd0DB8XfWxoxLJWLOuC2tMhtL7EynwcL8N2Xv/hD2FhpcJVzKwweoB4jixDpw\nQjtd3Af87fZTmyk/gl50lVQDxvp2U1JoEmoeJ2mcIQKBgQDP6eQZ0/MjNsL8IqF8\nTHJWhANAKLb0I0EVvoLFzhYvr8swRDcxpmntMvpB00lUmYUozDLq7mOv8n81c95v\nE5hGyjFvbE8E9kxoNviUnHNjYhLsZXmYAEo8+a1uat+TFPR/dnaedQLfqWCcYRyu\nrHtk4f0cuKTw9VylBh2WqrgTcQKBgQDDRQBSMRwVQZzufApjxAN8LbCATe6W27WM\nM59jncsRHbrtfFYX+T7zgJIzgqWKP9S9aDgMiWwDag/0WZPehK3shBbzuxNLK3sf\ntemjjxMTtcovTd2S5XjP1J1wZDeEREEg4/xjNzsJzfVbZJ4nomWkHaKRC20zU7UW\n9zA4j/j1LwKBgDo7BJKjRP6A0N1zCY1Zj9BhStPGU29PDGR9pfymeppCfwL2qAq0\n1AgF9gdHmMsj8CJ8Bmq795mIrk4XNJ4he82fxXaye/Mk1EN/2eEtbDfSeQBSb1q+\nAgzP1N4O+q0j+lJUqGY62WIw+wjxPepCDpEzpgNMR43g+mCRtOnEyKdRAoGANC1z\n8IJ+5o8px/ANNqth4wSybRZl8pmy4UvKA2xenqw7DspyluVbFOX+KxV19oMn7ZSz\npWXzHtZwfPKSuJrrfo+tMmOCvEtaExcg3zuT9WhWJl3AH0iCB8bgau/chdNXM9q3\nzisr82q9bTZtrFmQn1Hr5qYO//AWK5TRpcuS0rECgYAXBUTHfcyuNcrjvTv9UoP/\nHYxoyXx78LYjbml5w+75GhZqGbM2Gx1F9PA5scWTspGSwXVZPb9zfY+CiiMjHfa9\nfEuIbyGJN5znCMUBz9EjMuKh24tB5CdONSJgN7viZ5XBK25DhsWXBMk4KKMm7gKE\nlr6NPfAq3Phb9y5eBU6HTg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "vertex-ai-user@euphoric-world-422301-n2.iam.gserviceaccount.com",
+  "client_id": "101520831449288714825",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/vertex-ai-user%40euphoric-world-422301-n2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
